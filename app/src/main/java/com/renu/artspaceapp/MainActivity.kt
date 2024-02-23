@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.renu.artspaceapp.components.Artwork
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     ArtSpaceLayout(
                         artworkList = artworkList,
-                        currentIndex = currentIndex,
+                        currentIndex = currentIndex.value,
                         onNextClicked= { onNextClicked() },
                         onPreviousClicked = { onPreviousClicked() }
                     )
@@ -78,17 +79,27 @@ fun ArtSpaceLayout(
             contentDescription = "Artwork Image",
             modifier = Modifier
                 .wrapContentSize()
-                .size(280.dp)
+                .size(300.dp)
         )
         Spacer(modifier = Modifier.height(64.dp))
 
         // Information about the artwork
         Column(
             modifier = Modifier.padding(vertical = 16.dp)
+
         ) {
-            Text(text = currentArtwork.title)
-            Text(text = currentArtwork.artist)
-            Text(text = currentArtwork.year)
+            Text(
+                text = currentArtwork.title,
+                textAlign = TextAlign.Start
+            )
+            Text(
+                text = currentArtwork.artist,
+                textAlign = TextAlign.Start
+            )
+            Text(
+                text = currentArtwork.year,
+                textAlign = TextAlign.Start
+            )
         }
 
         Spacer(modifier = Modifier.height(64.dp))
@@ -121,7 +132,7 @@ fun PreviewArtSpaceApp() {
     ArtSpaceAppTheme {
         ArtSpaceLayout(
             artworkList = artworkList,
-            currentIndex = currentIndex,
+            currentIndex = currentIndex.value,
             onNextClicked= { onNextClicked() },
             onPreviousClicked = { onPreviousClicked() }
         )
@@ -129,9 +140,9 @@ fun PreviewArtSpaceApp() {
 }
 
 fun onNextClicked() {
-    currentIndex = (currentIndex + 1) % artworkList.size
+    currentIndex.value = (currentIndex.value + 1) % artworkList.size
 }
 
 fun onPreviousClicked() {
-    currentIndex = (currentIndex - 1 + artworkList.size) % artworkList.size
+    currentIndex.value = (currentIndex.value - 1 + artworkList.size) % artworkList.size
 }
